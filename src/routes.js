@@ -23,8 +23,12 @@ export default function Router() {
 
   const routes = useRoutes([
     {
+      path: '/',
+      element: isLoggedIn ? <Navigate to="/dashboard/app" replace /> : <LoginPage />,
+    },
+    {
       path: 'dashboard',
-      element:  <DashboardLayout /> ,
+      element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" replace />,
       children: [
         { path: '/dashboard/app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
@@ -33,17 +37,17 @@ export default function Router() {
     },
     {
       path: 'login',
-      element:  <LoginPage />,
+      element: <LoginPage />,
     },
     {
       path: 'updateProfile',
-      element:  <UpdateProfile />
+      element: isLoggedIn ? <UpdateProfile /> : <Navigate to="/login" replace />,
     },
     {
       element: <SimpleLayout />,
       children: [
         { path: '404', element: <Page404 /> },
-        { path: '*', element: <Navigate to="/dashbord/app" replace /> },
+        { path: '*', element: <Navigate to="/dashboard/app" replace /> },
       ],
     },
     {
@@ -53,10 +57,6 @@ export default function Router() {
     {
       path: 'otp',
       element: <OtpVerification />,
-    },
-    {
-      path: '/',
-    
     },
     {
       path: '*',
